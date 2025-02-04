@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Dingus:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Dingus_jar</output-path>
+    <root id="archive" name="Dingus.jar">
+      <element id="module-output" name="Dingus" />
+    </root>
+  </artifact>
+</component>

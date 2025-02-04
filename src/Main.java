@@ -19,7 +19,33 @@ public class Main {
         JMenuItem SaveItem = new JMenuItem("save");
         JMenuItem OpenItem = new JMenuItem("open");
         JMenuItem NewItem = new JMenuItem("new");
+        JMenuItem AboutItem = new JMenuItem("about");
         JMenu menuFile = new JMenu("file");
+        AboutItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JWindow aboutFrame = new JWindow();
+                aboutFrame.setSize(400, 200);
+                aboutFrame.setLayout(new FlowLayout());
+                JLabel name = new JLabel("Dingus");
+                JLabel version = new JLabel("version 1.1.1");
+                JLabel developer = new JLabel("created by Jface_Programming");
+                JButton exitButton = new JButton("X");
+                exitButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        aboutFrame.setVisible(false);
+                    }
+                });
+                name.setFont(new Font("", Font.PLAIN, 80));
+                aboutFrame.add(name);
+                aboutFrame.add(version);
+                aboutFrame.add(exitButton);
+                aboutFrame.add(developer);
+                aboutFrame.setLocationRelativeTo(null);
+                aboutFrame.setVisible(true);
+            }
+        });
         NewItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 textArea.setText("");
@@ -81,6 +107,7 @@ public class Main {
         window.setDefaultCloseOperation(3);
         window.setLocationRelativeTo(null);
         JScrollPane scroll = new JScrollPane(textArea);
+        menuFile.add(AboutItem);
         menuFile.add(SaveItem);
         menuFile.add(OpenItem);
         menuFile.add(NewItem);
