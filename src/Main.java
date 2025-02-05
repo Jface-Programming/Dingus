@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,6 +23,25 @@ public class Main {
         JMenuItem NewItem = new JMenuItem("new");
         JMenuItem AboutItem = new JMenuItem("about");
         JMenu menuFile = new JMenu("file");
+        JMenu optionsMenu = new JMenu("options");
+        JMenu fontType = new JMenu("font");
+        textArea.setFont(new Font("",Font.PLAIN,11));
+        JSpinner fontSize = new JSpinner();
+        fontSize.setValue(11);
+        JMenuItem plainText = new JMenuItem("plain");
+        plainText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textArea.setFont(new Font("", Font.PLAIN, textArea.getFont().getSize()));
+            }
+        });
+        JMenuItem boldText = new JMenuItem("bold");
+        boldText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textArea.setFont(new Font("", Font.BOLD, textArea.getFont().getSize()));
+            }
+        });
         AboutItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -28,7 +49,7 @@ public class Main {
                 aboutFrame.setSize(400, 200);
                 aboutFrame.setLayout(new FlowLayout());
                 JLabel name = new JLabel("Dingus");
-                JLabel version = new JLabel("version 1.1.1");
+                JLabel version = new JLabel("version 1.2.0");
                 JLabel developer = new JLabel("created by Jface_Programming");
                 JButton exitButton = new JButton("X");
                 exitButton.addActionListener(new ActionListener() {
@@ -55,7 +76,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setCurrentDirectory(new File("."));
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("text", "txt");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("text", ".txt");
                 fileChooser.setFileFilter(filter);
                 int response = fileChooser.showOpenDialog(null);
                 if (response == 0) {
@@ -83,7 +104,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setCurrentDirectory(new File("."));
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("text", "txt");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("text", ".txt");
                 fileChooser.setFileFilter(filter);
                 int response = fileChooser.showSaveDialog(null);
                 if (response == 0) {
@@ -107,11 +128,22 @@ public class Main {
         window.setDefaultCloseOperation(3);
         window.setLocationRelativeTo(null);
         JScrollPane scroll = new JScrollPane(textArea);
+        fontSize.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                textArea.setFont(new Font(textArea.getFont().getFamily(),Font.PLAIN, (Integer) fontSize.getValue()));
+            }
+        });
         menuFile.add(AboutItem);
         menuFile.add(SaveItem);
         menuFile.add(OpenItem);
         menuFile.add(NewItem);
+        optionsMenu.add(fontSize);
+        fontType.add(plainText);
+        fontType.add(boldText);
+        optionsMenu.add(fontType);
         menuBar.add(menuFile);
+        menuBar.add(optionsMenu);
         window.setJMenuBar(menuBar);
         window.add(scroll);
         window.setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/Dingus.png")));
